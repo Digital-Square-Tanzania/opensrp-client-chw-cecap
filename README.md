@@ -1,4 +1,4 @@
 
-# opensrp-client-chw-sbc
-OpenSRP client SBC module library
+# opensrp-client-chw-cecap
+OpenSRP client CECAP module library
 
