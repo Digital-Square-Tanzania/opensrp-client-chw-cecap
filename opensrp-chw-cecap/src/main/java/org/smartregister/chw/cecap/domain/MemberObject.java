@@ -33,7 +33,7 @@ public class MemberObject implements Serializable {
 
     private String hivStatus;
 
-    private String ctcNumber;
+    private String parity;
 
     public MemberObject() {
     }
@@ -221,11 +221,11 @@ public class MemberObject implements Serializable {
         this.hivStatus = hivStatus;
     }
 
-    public String getCtcNumber() {
-        return ctcNumber;
+    public String getParity() {
+        return parity;
     }
 
-    public void setCtcNumber(String ctcNumber) {
-        this.ctcNumber = ctcNumber;
+    public void setParity(String parity) {
+        this.parity = parity;
     }
 }

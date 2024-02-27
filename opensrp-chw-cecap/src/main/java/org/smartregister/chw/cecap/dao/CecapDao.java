@@ -1,10 +1,14 @@
 package org.smartregister.chw.cecap.dao;
 
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.chw.cecap.CecapLibrary;
 import org.smartregister.chw.cecap.domain.MemberObject;
+import org.smartregister.chw.cecap.model.CecapMobilizationSessionModel;
 import org.smartregister.chw.cecap.util.Constants;
+import org.smartregister.chw.cecap.util.DBConstants;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.dao.AbstractDao;
 
@@ -55,7 +59,7 @@ public class CecapDao extends AbstractDao {
             memberObject.setFamilyHeadPhoneNumber(getCursorValue(cursor, "pcg_phone_number", ""));
             memberObject.setFamilyHeadPhoneNumber(getCursorValue(cursor, "family_head_phone_number", ""));
             memberObject.setHivStatus(getCursorValue(cursor, "hiv_status", ""));
-            memberObject.setCtcNumber(getCursorValue(cursor, "ctc_number", ""));
+            memberObject.setParity(getCursorValue(cursor, "parity", ""));
 
             String familyHeadName = getCursorValue(cursor, "family_head_first_name", "") + " " + getCursorValue(cursor, "family_head_middle_name", "");
 
@@ -90,6 +94,128 @@ public class CecapDao extends AbstractDao {
             return event;
         };
         return (Event) AbstractDao.readSingleValue(sql, dataMap);
+    }
+
+
+    public static int getClientAge(String baseEntityID) {
+        String sql = "SELECT  dob  FROM ec_family_member WHERE base_entity_id = '" + baseEntityID + "'";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "dob");
+
+        List<String> res = readData(sql, dataMap);
+        if (res == null || res.size() != 1) return 0;
+
+
+        int age;
+        try {
+            age = (new Period(new DateTime(res.get(0)), new DateTime())).getYears();
+        } catch (Exception e) {
+            Timber.e(e);
+            return 0;
+        }
+        return age;
+    }
+
+    public static String getClientSex(String baseEntityID) {
+        String sql = "SELECT  gender  FROM ec_family_member WHERE base_entity_id = '" + baseEntityID + "'";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "gender");
+
+        List<String> res = readData(sql, dataMap);
+        if (res == null || res.size() != 1) return null;
+
+        return res.get(0);
+    }
+
+    public static String getServicesEnrolled(String baseEntityID) {
+        String sql = "SELECT  services_enrolled  FROM " + Constants.TABLES.CECAP_REGISTER + " WHERE base_entity_id = '" + baseEntityID + "'";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "services_enrolled");
+
+        List<String> res = readData(sql, dataMap);
+        if (res == null || res.size() != 1) return null;
+
+        return res.get(0);
+    }
+
+
+    public static boolean hasTestResults(String baseEntityID) {
+        String sql = "SELECT  pap_smear_sample_id, hpv_dna_specimen_sample_id   FROM " + Constants.TABLES.CECAP_FOLLOW_UP + " WHERE entity_id = '" + baseEntityID + "' AND (pap_smear_sample_id IS NOT NULL OR hpv_dna_specimen_sample_id IS NOT NULL) ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> papSmearDataMap = cursor -> getCursorValue(cursor, "pap_smear_sample_id");
+        DataMap<String> hpvDataMap = cursor -> getCursorValue(cursor, "hpv_dna_specimen_sample_id");
+
+        List<String> papSmearRes = readData(sql, papSmearDataMap);
+        List<String> hpvRes = readData(sql, hpvDataMap);
+
+        return (papSmearRes != null && papSmearRes.size() > 0) || (hpvRes != null && hpvRes.size() > 0);
+    }
+
+
+    public static String getScreenTestPerformed(String baseEntityID) {
+        String sql = "SELECT  screening_test_performed  FROM " + Constants.TABLES.CECAP_FOLLOW_UP + " WHERE entity_id = '" + baseEntityID + "' ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "screening_test_performed");
+
+        List<String> res = readData(sql, dataMap);
+        if (res == null || res.size() != 1) return null;
+
+        return res.get(0);
+    }
+
+
+    public static String getHpvFindings(String baseEntityID) {
+        String sql = "SELECT  hpv_dna_findings  FROM " + Constants.TABLES.CECAP_FOLLOW_UP + " INNER JOIN " + Constants.TABLES.CECAP_TEST_RESULTS + " ON " + Constants.TABLES.CECAP_TEST_RESULTS + "." + DBConstants.KEY.CECAP_TEST_RESULTS_FOLLOWUP_FORM_SUBMISSION_ID + " = " + Constants.TABLES.CECAP_FOLLOW_UP + "." + DBConstants.KEY.BASE_ENTITY_ID + " WHERE " + Constants.TABLES.CECAP_FOLLOW_UP + ".entity_id = '" + baseEntityID + "' ORDER BY " + Constants.TABLES.CECAP_FOLLOW_UP + ".last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "hpv_dna_findings");
+
+        List<String> res = readData(sql, dataMap);
+        if (res == null || res.size() != 1) return null;
+
+        return res.get(0);
+    }
+
+    public static List<CecapMobilizationSessionModel> getCecapMobilizationSessions() {
+        String sql = "SELECT * FROM " + Constants.TABLES.CECAP_MOBILIZATION_SESSIONS;
+
+        DataMap<CecapMobilizationSessionModel> dataMap = cursor -> {
+            CecapMobilizationSessionModel sbcMobilizationSessionModel = new CecapMobilizationSessionModel();
+            sbcMobilizationSessionModel.setSessionId(cursor.getString(cursor.getColumnIndex("id")));
+
+            sbcMobilizationSessionModel.setSessionDate(cursor.getString(cursor.getColumnIndex("mobilization_date")));
+
+            sbcMobilizationSessionModel.setSessionParticipants(computeSessionParticipants(cursor.getString(cursor.getColumnIndex(DBConstants.KEY.FEMALE_CLIENTS_REACHED)), cursor.getString(cursor.getColumnIndex(DBConstants.KEY.MALE_CLIENTS_REACHED))));
+
+            sbcMobilizationSessionModel.setHealthEducation(cursor.getString(cursor.getColumnIndex("health_education_provided")));
+
+            return sbcMobilizationSessionModel;
+        };
+
+        List<CecapMobilizationSessionModel> res = readData(sql, dataMap);
+        if (res == null || res.size() == 0) return null;
+        return res;
+    }
+
+    public static void updateData(String baseEntityID, String mobilization_date, String femaleClientsReached, String maleClientsReached, String healthEducationProvided) {
+        String sql = "INSERT INTO "+ Constants.TABLES.CECAP_MOBILIZATION_SESSIONS +
+                "           (id, mobilization_date, female_clients_reached, male_clients_reached, health_education_provided) " +
+                "           VALUES (" +
+                "                   '" + baseEntityID + "', " +
+                "                   '" + mobilization_date + "', " +
+                "                   '" + femaleClientsReached + "', " +
+                "                   '" + maleClientsReached + "', " +
+                "                   '" + healthEducationProvided + "') " +
+                "              " +
+                " ON CONFLICT (id) DO UPDATE SET mobilization_date      = '" + mobilization_date + "',      " +
+                "                               female_clients_reached = '" + femaleClientsReached + "',  " +
+                "                               male_clients_reached   = '" + maleClientsReached + "',    " +
+                "                               health_education_provided  = '" + healthEducationProvided + "'    ";
+        updateDB(sql);
+    }
+
+    private static String computeSessionParticipants(String femaleParticipants, String maleParticipants) {
+        int sum = Integer.parseInt(femaleParticipants) + Integer.parseInt(maleParticipants);
+        return String.valueOf(sum);
     }
 
 }
