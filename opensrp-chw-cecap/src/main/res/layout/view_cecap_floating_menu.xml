@@ -91,7 +91,7 @@
                 android:gravity="center"
                 android:minWidth="50dp"
                 android:padding="10dp"
-                android:text="refer"
+                android:text="@string/issue_referral"
                 android:textColor="@android:color/black" />
 
 
@@ -101,7 +101,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 app:backgroundTint="@color/white"
-                app:fabSize="mini" />
+                app:fabSize="mini"
+                app:srcCompat="@drawable/ic_refer" />
 
         </RelativeLayout>
 

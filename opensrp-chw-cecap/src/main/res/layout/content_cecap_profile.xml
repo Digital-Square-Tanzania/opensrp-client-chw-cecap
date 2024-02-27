@@ -84,12 +84,73 @@
         </RelativeLayout>
 
         <View
-            android:id="@+id/view_most_due_overdue_row"
+            android:id="@+id/separator_1"
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_below="@+id/rlLastVisit"
             android:background="@color/light_grey"
             android:visibility="visible" />
+
+        <RelativeLayout
+            android:id="@+id/rlTestResults"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/separator_1"
+            android:background="@drawable/list_item_background_selctor"
+            android:padding="20dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_marginLeft="10dp"
+                android:id="@+id/baseline_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_testing" />
+
+            <ImageView
+                android:id="@+id/iv_family_services_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/row_goto" />
+
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/textview_baseline_results"
+                style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/baseline_image"
+                android:gravity="center_horizontal"
+                android:text="@string/cecap_test_results"
+                android:textColor="@android:color/black" />
+
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/tv_view_baseline_results"
+                style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textview_baseline_results"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/baseline_image"
+                android:text="@string/cecap_view_test_results"
+                android:textColor="@android:color/darker_gray" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/separator_2"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@+id/rlTestResults"
+            android:background="@color/light_grey"
+            android:visibility="gone" />
+
+
+
 
     </RelativeLayout>
 
