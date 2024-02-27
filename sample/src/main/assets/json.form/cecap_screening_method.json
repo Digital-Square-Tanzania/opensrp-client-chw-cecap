@@ -136,12 +136,8 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "screening_test_performed_with_via",
-        "type": "check_box",
-        "combine_checkbox_option_values": "true",
+        "type": "native_radio",
         "label": "Which type of screening test was performed?",
-        "exclusive": [
-          "none"
-        ],
         "options": [
           {
             "key": "via",
@@ -179,8 +175,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "screening_test_performed_without_via",
-        "type": "check_box",
-        "combine_checkbox_option_values": "true",
+        "type": "native_radio",
         "label": "Which type of screening test was performed?",
         "exclusive": [
           "none"
