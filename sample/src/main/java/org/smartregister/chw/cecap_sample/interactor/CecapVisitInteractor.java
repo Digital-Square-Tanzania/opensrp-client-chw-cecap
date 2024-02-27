@@ -5,6 +5,11 @@ import org.smartregister.chw.cecap.interactor.BaseCecapVisitInteractor;
 import org.smartregister.chw.cecap_sample.activity.EntryActivity;
 
 public class CecapVisitInteractor extends BaseCecapVisitInteractor {
+
+    public CecapVisitInteractor(Boolean isViaFollowupTest) {
+        super(isViaFollowupTest);
+    }
+
     @Override
     public MemberObject getMemberClient(String memberID) {
         return EntryActivity.getSampleMember();

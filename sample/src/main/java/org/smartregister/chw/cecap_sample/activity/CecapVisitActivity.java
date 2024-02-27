@@ -26,7 +26,7 @@ public class CecapVisitActivity extends BaseCecapVisitActivity {
     }
 
     protected void registerPresenter() {
-        presenter = new BaseCecapVisitPresenter(memberObject, this, new CecapVisitInteractor());
+        presenter = new BaseCecapVisitPresenter(memberObject, this, new CecapVisitInteractor(true));
     }
 
     @Override
