@@ -20,17 +20,23 @@ import timber.log.Timber;
 /**
  * CECAP Services Survey Action Helper
  */
-public abstract class IndividualCounselingForCervicalCancerActionHelper extends CecapVisitActionHelper {
+public class TreatmentActionHelper extends CecapVisitActionHelper {
     protected Context context;
+
     protected MemberObject memberObject;
 
-    protected String clientPregnancyStatus;
+    protected String cryotherapyThermocoagulation;
+
+    protected String leepTreatment;
+
+    protected String viaFindings;
 
     private JSONObject jsonForm;
 
-    public IndividualCounselingForCervicalCancerActionHelper(Context context, MemberObject memberObject) {
+    public TreatmentActionHelper(Context context, MemberObject memberObject, String viaFindings) {
         this.context = context;
         this.memberObject = memberObject;
+        this.viaFindings = viaFindings;
     }
 
     @Override
@@ -44,24 +50,15 @@ public abstract class IndividualCounselingForCervicalCancerActionHelper extends 
     }
 
     /**
-     * Update the preprocessed form to pass client age as global parameter
+     * set preprocessed status to be inert
      *
-     * @return the updated form
+     * @return null
      */
     @Override
     public String getPreProcessed() {
         try {
             JSONObject global = jsonForm.getJSONObject(GLOBAL);
-            global.put("age", memberObject.getAge());
-
-            if (memberObject.getParity() != null) {
-                try {
-                    global.put("parity", Integer.parseInt(memberObject.getParity()));
-                } catch (Exception e) {
-                    Timber.e(e);
-                    global.put("parity", -1);
-                }
-            }
+            global.put("viaFindings", viaFindings);
             return jsonForm.toString();
         } catch (JSONException e) {
             Timber.e(e);
@@ -73,8 +70,8 @@ public abstract class IndividualCounselingForCervicalCancerActionHelper extends 
     public void onPayloadReceived(String jsonPayload) {
         try {
             JSONObject jsonObject = new JSONObject(jsonPayload);
-            clientPregnancyStatus = JsonFormUtils.getValue(jsonObject, "client_pregnancy_status");
-            processIndividualCounselingForCervicalCancer(JsonFormUtils.getValue(jsonObject, "eligible_for_cervical_cancer_screening_after_individual_counselling_for_cervical_cancer"));
+            cryotherapyThermocoagulation = JsonFormUtils.getValue(jsonObject, "cryotherapy_thermocoagulation");
+            leepTreatment = JsonFormUtils.getValue(jsonObject, "leep_treatment");
         } catch (Exception e) {
             Timber.e(e);
         }
@@ -87,13 +84,10 @@ public abstract class IndividualCounselingForCervicalCancerActionHelper extends 
 
     @Override
     public BaseCecapVisitAction.Status evaluateStatusOnPayload() {
-        if (StringUtils.isNotBlank(clientPregnancyStatus)) {
+        if (StringUtils.isNotBlank(cryotherapyThermocoagulation) || StringUtils.isNotBlank(leepTreatment)) {
             return BaseCecapVisitAction.Status.COMPLETED;
         } else {
             return BaseCecapVisitAction.Status.PENDING;
         }
     }
-
-
-    public abstract void processIndividualCounselingForCervicalCancer(String eligibleForCervicalCancerScreening);
 }

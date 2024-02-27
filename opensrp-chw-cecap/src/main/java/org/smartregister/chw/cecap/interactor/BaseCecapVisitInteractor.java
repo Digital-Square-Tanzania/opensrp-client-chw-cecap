@@ -19,6 +19,7 @@ import org.smartregister.chw.cecap.actionhelper.IndividualCounselingForCervicalC
 import org.smartregister.chw.cecap.actionhelper.IndividualCounselingForProstateCancerActionHelper;
 import org.smartregister.chw.cecap.actionhelper.PapSampleCollectionActionHelper;
 import org.smartregister.chw.cecap.actionhelper.ScreeningMethodActionHelper;
+import org.smartregister.chw.cecap.actionhelper.TreatmentActionHelper;
 import org.smartregister.chw.cecap.actionhelper.VaginalSpeculumExaminationActionHelper;
 import org.smartregister.chw.cecap.actionhelper.ViaApproachActionHelper;
 import org.smartregister.chw.cecap.contract.BaseCecapVisitContract;
@@ -59,16 +60,19 @@ public class BaseCecapVisitInteractor implements BaseCecapVisitContract.Interact
 
     private BaseCecapVisitContract.InteractorCallBack callBack;
 
+    private Boolean isViaFollowupTest;
+
     @VisibleForTesting
-    public BaseCecapVisitInteractor(AppExecutors appExecutors, CecapLibrary CecapLibrary, ECSyncHelper syncHelper) {
+    public BaseCecapVisitInteractor(AppExecutors appExecutors, CecapLibrary CecapLibrary, ECSyncHelper syncHelper, Boolean isViaFollowupTest) {
         this.appExecutors = appExecutors;
         this.cecapLibrary = CecapLibrary;
         this.syncHelper = syncHelper;
         this.actionList = new LinkedHashMap<>();
+        this.isViaFollowupTest = isViaFollowupTest;
     }
 
-    public BaseCecapVisitInteractor() {
-        this(new AppExecutors(), CecapLibrary.getInstance(), CecapLibrary.getInstance().getEcSyncHelper());
+    public BaseCecapVisitInteractor(Boolean isViaFollowupTest) {
+        this(new AppExecutors(), CecapLibrary.getInstance(), CecapLibrary.getInstance().getEcSyncHelper(), isViaFollowupTest);
     }
 
     @Override
@@ -102,13 +106,44 @@ public class BaseCecapVisitInteractor implements BaseCecapVisitContract.Interact
     public void calculateActions(final BaseCecapVisitContract.View view, MemberObject memberObject, final BaseCecapVisitContract.InteractorCallBack callBack) {
         mContext = view.getContext();
         this.callBack = callBack;
+
+        if (view.getEditMode()) {
+            Visit lastVisit = cecapLibrary.visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.CECAP_FOLLOW_UP_VISIT);
+            if (lastVisit != null) {
+                details = VisitUtils.getVisitGroups(cecapLibrary.visitDetailsRepository().getVisits(lastVisit.getVisitId()));
+            }
+        }
+
         final Runnable runnable = () -> {
-            try {
-                evaluateIndividualCounsellingForCervicalCancer(memberObject, details);
-                evaluateIndividualCounsellingForBreastCancer(memberObject, details);
-                evaluateIndividualCounsellingForProstateCancer(memberObject, details);
-            } catch (BaseCecapVisitAction.ValidationException e) {
-                Timber.e(e);
+            if (!isViaFollowupTest) {
+                try {
+                    String servicesEnrolled = CecapDao.getServicesEnrolled(memberObject.getBaseEntityId());
+                    if (servicesEnrolled != null) {
+                        if (servicesEnrolled.contains("cervical_cancer")) {
+                            evaluateIndividualCounsellingForCervicalCancer(memberObject, details);
+                        }
+
+                        if (servicesEnrolled.contains("breast_cancer")) {
+                            evaluateIndividualCounsellingForBreastCancer(memberObject, details);
+                        }
+
+                        if (servicesEnrolled.contains("prostate_cancer")) {
+                            evaluateIndividualCounsellingForProstateCancer(memberObject, details);
+                        }
+                    } else {
+                        evaluateIndividualCounsellingForCervicalCancer(memberObject, details);
+                        evaluateIndividualCounsellingForBreastCancer(memberObject, details);
+                        evaluateIndividualCounsellingForProstateCancer(memberObject, details);
+                    }
+                } catch (BaseCecapVisitAction.ValidationException e) {
+                    Timber.e(e);
+                }
+            } else {
+                try {
+                    evaluateViaApproach(memberObject, details);
+                } catch (BaseCecapVisitAction.ValidationException e) {
+                    Timber.e(e);
+                }
             }
             appExecutors.mainThread().execute(() -> callBack.preloadActions(actionList));
         };
@@ -247,9 +282,31 @@ public class BaseCecapVisitInteractor implements BaseCecapVisitContract.Interact
     }
 
     protected void evaluateViaApproach(MemberObject memberObject, Map<String, List<VisitDetail>> details) throws BaseCecapVisitAction.ValidationException {
-        CecapVisitActionHelper actionHelper = new ViaApproachActionHelper(mContext, memberObject);
+        CecapVisitActionHelper actionHelper = new ViaApproachActionHelper(mContext, memberObject) {
+            @Override
+            public void processViaFindings(String viaFindings) {
+                if (viaFindings.contains("positive")) {
+                    try {
+                        evaluateTreatment(memberObject, details, viaFindings);
+                    } catch (BaseCecapVisitAction.ValidationException e) {
+                        Timber.e(e);
+                    }
+                } else {
+                    actionList.remove(mContext.getString(R.string.cecap_hpv_dna_sample_collection));
+                }
+
+                appExecutors.mainThread().execute(() -> callBack.preloadActions(actionList));
+            }
+        };
         String actionName = mContext.getString(R.string.cecap_via_approach);
         BaseCecapVisitAction action = getBuilder(actionName).withOptional(false).withDetails(details).withHelper(actionHelper).withFormName(Constants.FORMS.CECAP_VIA_APPROACH).build();
+        actionList.put(actionName, action);
+    }
+
+    protected void evaluateTreatment(MemberObject memberObject, Map<String, List<VisitDetail>> details, String viaFindings) throws BaseCecapVisitAction.ValidationException {
+        CecapVisitActionHelper actionHelper = new TreatmentActionHelper(mContext, memberObject, viaFindings);
+        String actionName = mContext.getString(R.string.cecap_treatment);
+        BaseCecapVisitAction action = getBuilder(actionName).withOptional(false).withDetails(details).withHelper(actionHelper).withFormName(Constants.FORMS.CECAP_TREATMENT).build();
         actionList.put(actionName, action);
     }
 

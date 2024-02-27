@@ -13,7 +13,7 @@ import timber.log.Timber;
 /**
  * CECAP Services Survey Action Helper
  */
-public class ViaApproachActionHelper extends CecapVisitActionHelper {
+public abstract class ViaApproachActionHelper extends CecapVisitActionHelper {
     protected Context context;
     protected MemberObject memberObject;
     protected String viaFindings;
@@ -38,6 +38,7 @@ public class ViaApproachActionHelper extends CecapVisitActionHelper {
         try {
             JSONObject jsonObject = new JSONObject(jsonPayload);
             viaFindings = JsonFormUtils.getValue(jsonObject, "via_findings");
+            processViaFindings(viaFindings);
         } catch (Exception e) {
             Timber.e(e);
         }
@@ -56,4 +57,7 @@ public class ViaApproachActionHelper extends CecapVisitActionHelper {
             return BaseCecapVisitAction.Status.PENDING;
         }
     }
+
+
+    public abstract void processViaFindings(String viaFindings);
 }
