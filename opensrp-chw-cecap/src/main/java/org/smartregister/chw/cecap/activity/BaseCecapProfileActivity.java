@@ -42,26 +42,47 @@ import timber.log.Timber;
 
 public class BaseCecapProfileActivity extends BaseProfileActivity implements CecapProfileContract.View, CecapProfileContract.InteractorCallBack {
     protected MemberObject memberObject;
+
     protected CecapProfileContract.Presenter profilePresenter;
+
     protected CircleImageView imageView;
+
     protected TextView textViewName;
+
     protected TextView textViewGender;
+
     protected TextView textViewLocation;
+
     protected TextView textViewUniqueID;
+
     protected TextView textViewRecordCecap;
-    protected View view_most_due_overdue_row;
+
+    protected View viewSeparator1;
+
+    protected View viewSeparator2;
+
     protected RelativeLayout rlLastVisit;
+
     protected RelativeLayout visitStatus;
+
     protected ImageView imageViewCross;
+
     protected TextView textViewUndo;
+
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", Locale.getDefault());
     protected TextView textViewVisitDone;
+
     protected RelativeLayout visitDone;
+
     protected LinearLayout recordVisits;
+
     protected TextView textViewVisitDoneEdit;
 
     private ProgressBar progressBar;
+
     protected BaseCecapFloatingMenu baseCecapFloatingMenu;
+
+    protected RelativeLayout rlTestResults;
 
     public static void startProfileActivity(Activity activity, String baseEntityId) {
         Intent intent = new Intent(activity, BaseCecapProfileActivity.class);
@@ -94,9 +115,11 @@ public class BaseCecapProfileActivity extends BaseProfileActivity implements Cec
         textViewGender = findViewById(R.id.textview_gender);
         textViewLocation = findViewById(R.id.textview_address);
         textViewUniqueID = findViewById(R.id.textview_id);
-        view_most_due_overdue_row = findViewById(R.id.view_most_due_overdue_row);
+        viewSeparator1 = findViewById(R.id.separator_1);
+        viewSeparator2 = findViewById(R.id.separator_2);
         imageViewCross = findViewById(R.id.tick_image);
         rlLastVisit = findViewById(R.id.rlLastVisit);
+        rlTestResults = findViewById(R.id.rlTestResults);
         textViewVisitDone = findViewById(R.id.textview_visit_done);
         visitStatus = findViewById(R.id.record_visit_not_done_bar);
         visitDone = findViewById(R.id.visit_done_bar);
@@ -108,6 +131,7 @@ public class BaseCecapProfileActivity extends BaseProfileActivity implements Cec
         imageView = findViewById(R.id.imageview_profile);
         textViewVisitDoneEdit.setOnClickListener(this);
         rlLastVisit.setOnClickListener(this);
+        rlTestResults.setOnClickListener(this);
         textViewRecordCecap.setOnClickListener(this);
         textViewUndo.setOnClickListener(this);
 
@@ -136,6 +160,8 @@ public class BaseCecapProfileActivity extends BaseProfileActivity implements Cec
             this.openMedicalHistory();
         } else if (id == R.id.textview_record_cecap) {
             this.recordCecap(memberObject);
+        } else if (id == R.id.rlTestResults) {
+            this.openTestResults();
         }
     }
 
@@ -204,6 +230,11 @@ public class BaseCecapProfileActivity extends BaseProfileActivity implements Cec
 
     @Override
     public void openMedicalHistory() {
+        //implement
+    }
+
+
+    public void openTestResults() {
         //implement
     }
 

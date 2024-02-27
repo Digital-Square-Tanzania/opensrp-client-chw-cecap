@@ -6,7 +6,11 @@ public class DBConstants {
         public static final String FIRST_NAME = "first_name";
         public static final String MIDDLE_NAME = "middle_name";
         public static final String LAST_NAME = "last_name";
+
         public static final String BASE_ENTITY_ID = "base_entity_id";
+
+        public static final String ENTITY_ID = "entity_id";
+
         public static final String FAMILY_BASE_ENTITY_ID = "family_base_entity_id";
         public static final String DOB = "dob";
         public static final String DOD = "dod";
@@ -28,6 +32,29 @@ public class DBConstants {
         public static final String FAMILY_NAME = "family_name";
         public static final String PHONE_NUMBER = "phone_number";
         public static final String CHILD = "ec_child";
+        public static final String SCREENING_TEST_PERFORMED = "screening_test_performed";
+
+        public static final String HPV_DNA_SAMPLE_ID = "hpv_dna_specimen_sample_id";
+
+        public static final String HPV_DNA_SAMPLE_COLLECTION_DATE = "hpv_dna_specimen_collection_date";
+
+        public static final String HPV_DNA_FINDINGS = "hpv_dna_findings";
+
+        public static final String TYPE_OF_HPV_POSITIVE = "type_of_hpv_positive";
+
+        public static final String PAP_SMEAR_SAMPLE_COLLECTION_DATE = "pap_smear_sample_collection_date";
+
+        public static final String PAP_SMEAR_SAMPLE_ID = "pap_smear_sample_id";
+
+        public static final String PAP_FINDINGS = "pap_findings";
+
+        public static final String TEST_RESULTS_DATE = "test_results_date";
+
+        public static final String CECAP_TEST_RESULTS_FOLLOWUP_FORM_SUBMISSION_ID = "cecap_test_results_followup_form_submission_id";
+
+        public static final String FEMALE_CLIENTS_REACHED = "female_clients_reached";
+
+        public static final String MALE_CLIENTS_REACHED = "male_clients_reached";
 
     }
 }

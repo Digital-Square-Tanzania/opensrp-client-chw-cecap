@@ -48,6 +48,9 @@ public class BaseCecapVisitActivity extends SecuredActivity implements BaseCecap
     protected MemberObject memberObject;
     protected String baseEntityID;
     protected Boolean isEditMode = false;
+
+    protected Boolean isViaFollowupTest = false;
+
     protected RecyclerView.Adapter mAdapter;
     protected ProgressBar progressBar;
     protected TextView tvSubmit;
@@ -56,10 +59,11 @@ public class BaseCecapVisitActivity extends SecuredActivity implements BaseCecap
     protected String confirmCloseTitle;
     protected String confirmCloseMessage;
 
-    public static void startMe(Activity activity, String baseEntityID, Boolean isEditMode) {
+    public static void startMe(Activity activity, String baseEntityID, Boolean isEditMode, boolean isViaFollowupTest) {
         Intent intent = new Intent(activity, BaseCecapVisitActivity.class);
         intent.putExtra(Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID, baseEntityID);
         intent.putExtra(Constants.ACTIVITY_PAYLOAD.EDIT_MODE, isEditMode);
+        intent.putExtra(Constants.ACTIVITY_PAYLOAD.IS_VIA_FOLLOWUP_TEST, isViaFollowupTest);
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
     }
 
@@ -70,6 +74,7 @@ public class BaseCecapVisitActivity extends SecuredActivity implements BaseCecap
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             isEditMode = getIntent().getBooleanExtra(Constants.ACTIVITY_PAYLOAD.EDIT_MODE, false);
+            isViaFollowupTest = getIntent().getBooleanExtra(Constants.ACTIVITY_PAYLOAD.IS_VIA_FOLLOWUP_TEST, false);
             baseEntityID = getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID);
             memberObject = getMemberObject(baseEntityID);
         }
@@ -114,7 +119,7 @@ public class BaseCecapVisitActivity extends SecuredActivity implements BaseCecap
     }
 
     protected void registerPresenter() {
-        presenter = new BaseCecapVisitPresenter(memberObject, this, new BaseCecapVisitInteractor());
+        presenter = new BaseCecapVisitPresenter(memberObject, this, new BaseCecapVisitInteractor(isViaFollowupTest));
     }
 
     @Override

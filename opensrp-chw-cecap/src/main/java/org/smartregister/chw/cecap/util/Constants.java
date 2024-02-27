@@ -17,9 +17,13 @@ public interface Constants {
     }
 
     interface EVENT_TYPE {
-        String CECAP_REGISTRATION = "CECAP Registration";
+        String CECAP_REGISTRATION = "CECAP Enrollment";
 
         String CECAP_FOLLOW_UP_VISIT = "CECAP Follow-up Visit";
+
+        String CECAP_HOME_VISIT = "CECAP Home Visit";
+
+        String CECAP_HEALTH_EDUCATION_MOBILIZATION = "CECAP Health Education Mobilization";
 
         String DELETE_EVENT = "Delete Event";
     }
@@ -41,24 +45,49 @@ public interface Constants {
 
         String CECAP_VIA_APPROACH = "cecap_via_approach";
 
+        String CECAP_TREATMENT = "cecap_treatment";
+
         String CECAP_HPV_DNA_SAMPLE_COLLECTION = "cecap_hpv_dna_sample_collection";
 
         String CECAP_PAP_SAMPLE_COLLECTION = "cecap_pap_sample_collection";
+
+        String HPV_DNA_FINDINGS = "cecap_hpv_dna_findings";
+
+        String PAP_FINDINGS = "cecap_pap_findings";
+
+        String CECAP_MOBILIZATION_SESSION = "cecap_mobilization_session";
+
+        String CECAP_COMMUNITY_VISIT = "cecap_community_visit";
     }
 
     interface TABLES {
         String CECAP_REGISTER = "ec_cecap_register";
 
-        String CECAP_FOLLOW_UP = "ec_cecap_follow_up_visit";
+        String CECAP_FOLLOW_UP = "ec_cecap_visit";
+
+        String CECAP_TEST_RESULTS = "ec_cecap_test_results";
+
+        String CECAP_MOBILIZATION_SESSIONS = "ec_cecap_mobilization_session";
 
     }
 
     interface ACTIVITY_PAYLOAD {
         String BASE_ENTITY_ID = "BASE_ENTITY_ID";
+
         String FAMILY_BASE_ENTITY_ID = "FAMILY_BASE_ENTITY_ID";
+
         String ACTION = "ACTION";
+
         String CECAP_FORM_NAME = "CECAP_FORM_NAME";
+
+        String CECAP_FORM = "CECAP_FORM";
+
+        String PARENT_FORM_ENTITY_ID = "PARENT_FORM_ENTITY_ID";
+
         String EDIT_MODE = "editMode";
+
+        String IS_VIA_FOLLOWUP_TEST = "isViaFollowupTest";
+
         String MEMBER_PROFILE_OBJECT = "MemberObject";
 
     }

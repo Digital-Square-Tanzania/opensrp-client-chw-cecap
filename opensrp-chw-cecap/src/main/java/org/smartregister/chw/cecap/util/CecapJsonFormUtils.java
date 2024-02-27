@@ -1,5 +1,7 @@
 package org.smartregister.chw.cecap.util;
 
+import static org.smartregister.client.utils.constants.JsonFormConstants.JSON_FORM_KEY.GLOBAL;
+
 import android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
@@ -8,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.chw.cecap.CecapLibrary;
+import org.smartregister.chw.cecap.dao.CecapDao;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.repository.AllSharedPreferences;
@@ -115,6 +118,9 @@ public class CecapJsonFormUtils extends org.smartregister.util.JsonFormUtils {
         jsonObject.getJSONObject(METADATA).put(ENCOUNTER_LOCATION, currentLocationId);
         jsonObject.put(org.smartregister.util.JsonFormUtils.ENTITY_ID, entityId);
         jsonObject.put(DBConstants.KEY.RELATIONAL_ID, entityId);
+
+        jsonObject.getJSONObject(GLOBAL).put("age", CecapDao.getClientAge(entityId));
+        jsonObject.getJSONObject(GLOBAL).put("sex", CecapDao.getClientSex(entityId));
     }
 
     public static JSONObject getFormAsJson(String formName) throws Exception {
