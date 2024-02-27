@@ -62,7 +62,26 @@
     <string name="cecap_vaginal_speculum_examination">Vaginal speculum examination</string>
     <string name="cecap_screening_method">Screening Method</string>
     <string name="cecap_via_approach">VIA Approach</string>
+    <string name="cecap_treatment">Treatment</string>
     <string name="cecap_hpv_dna_sample_collection">HPV DNA sample collection</string>
     <string name="cecap_pap_sample_collection">Pap sample collection</string>
+    <string name="cecap_test_results">Test Results</string>
+    <string name="cecap_view_test_results">View Test Results</string>
+    <string name="test_results">Test Results</string>
+    <string name="sample_id_title">SAMPLE ID:</string>
+    <string name="test_type_title">Test Type:</string>
+    <string name="collection_date">Collection Date</string>
+    <string name="record_results">Record Results</string>
+    <string name="hpv_dna_test">HPV DNA</string>
+    <string name="pap_smear_test">PAP Smear</string>
+    <string name="record_cecap_treatment">Record Treatment</string>
+
+
+    <string name="cecap_mobilization">CECAP Mobilization</string>
+    <string name="cecap_mobilization_session">CECAP Mobilization Session</string>
+    <string name="cecap_mobilization_session_details">CECAP Mobilization Session Details</string>
+    <string name="cecap_mobilization_sessions_title">CECAP Mobilizations</string>
+    <string name="cecap_edit_home_visit">Edit CECAP Home Visit</string>
+    <string name="issue_referral">Issue Referral</string>
 
 </resources>
