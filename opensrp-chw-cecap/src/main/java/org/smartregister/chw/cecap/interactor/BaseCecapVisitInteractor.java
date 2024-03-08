@@ -293,6 +293,7 @@ public class BaseCecapVisitInteractor implements BaseCecapVisitContract.Interact
                     }
                 } else {
                     actionList.remove(mContext.getString(R.string.cecap_hpv_dna_sample_collection));
+                    actionList.remove(mContext.getString(R.string.cecap_treatment));
                 }
 
                 appExecutors.mainThread().execute(() -> callBack.preloadActions(actionList));

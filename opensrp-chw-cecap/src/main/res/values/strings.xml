@@ -52,19 +52,19 @@
 
     <string name="error_unable_save_home_visit">unable to save home visit</string>
     <string name="optional">optional</string>
-    <string name="cecap_visit">Cecap visit</string>
+    <string name="cecap_visit">Cecap Visit</string>
 
     <string name="cecap_individual_counseling_for_cervical_cancer">Individual Counseling for Cervical Cancer</string>
-    <string name="cecap_individual_counseling_for_breast_cancer">Individual counseling for Breast Cancer</string>
-    <string name="cecap_individual_counseling_for_prostate_cancer">Individual counseling for Prostate Cancer</string>
-    <string name="cecap_clinical_breast_examination">Clinical breast examination</string>
+    <string name="cecap_individual_counseling_for_breast_cancer">Individual Counseling for Breast Cancer</string>
+    <string name="cecap_individual_counseling_for_prostate_cancer">Individual Counseling for Prostate Cancer</string>
+    <string name="cecap_clinical_breast_examination">Clinical Breast Examination</string>
     <string name="cecap_registration">CECAP Registration</string>
-    <string name="cecap_vaginal_speculum_examination">Vaginal speculum examination</string>
+    <string name="cecap_vaginal_speculum_examination">Vaginal Speculum Examination</string>
     <string name="cecap_screening_method">Screening Method</string>
     <string name="cecap_via_approach">VIA Approach</string>
     <string name="cecap_treatment">Treatment</string>
     <string name="cecap_hpv_dna_sample_collection">HPV DNA sample collection</string>
-    <string name="cecap_pap_sample_collection">Pap sample collection</string>
+    <string name="cecap_pap_sample_collection">Pap Sample Collection</string>
     <string name="cecap_test_results">Test Results</string>
     <string name="cecap_view_test_results">View Test Results</string>
     <string name="test_results">Test Results</string>
