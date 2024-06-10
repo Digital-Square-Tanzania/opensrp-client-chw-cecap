@@ -1,12 +1,19 @@
 package org.smartregister.chw.cecap.actionhelper;
 
+import static org.smartregister.client.utils.constants.JsonFormConstants.GLOBAL;
+
 import android.content.Context;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.chw.cecap.domain.MemberObject;
+import org.smartregister.chw.cecap.domain.VisitDetail;
 import org.smartregister.chw.cecap.model.BaseCecapVisitAction;
 import org.smartregister.chw.cecap.util.JsonFormUtils;
+
+import java.util.List;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -18,10 +25,23 @@ public class IndividualCounselingForProstateCancerActionHelper extends CecapVisi
     protected MemberObject memberObject;
     protected String familyHistoryProstateCancer;
 
+    private JSONObject jsonForm;
+
     public IndividualCounselingForProstateCancerActionHelper(Context context, MemberObject memberObject) {
         this.context = context;
         this.memberObject = memberObject;
     }
+
+    @Override
+    public void onJsonFormLoaded(String jsonString, Context context, Map<String, List<VisitDetail>> details) {
+        super.onJsonFormLoaded(jsonString, context, details);
+        try {
+            jsonForm = new JSONObject(jsonString);
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+    }
+
 
     /**
      * set preprocessed status to be inert
@@ -30,6 +50,13 @@ public class IndividualCounselingForProstateCancerActionHelper extends CecapVisi
      */
     @Override
     public String getPreProcessed() {
+        try {
+            JSONObject global = jsonForm.getJSONObject(GLOBAL);
+            global.put("age", memberObject.getAge());
+            return jsonForm.toString();
+        } catch (JSONException e) {
+            Timber.e(e);
+        }
         return null;
     }
 
