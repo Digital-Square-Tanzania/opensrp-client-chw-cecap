@@ -20,15 +20,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import org.apache.commons.lang3.StringUtils;
+import org.smartregister.chw.cecap.R;
 import org.smartregister.chw.cecap.contract.CecapProfileContract;
 import org.smartregister.chw.cecap.custom_views.BaseCecapFloatingMenu;
+import org.smartregister.chw.cecap.dao.CecapDao;
 import org.smartregister.chw.cecap.domain.MemberObject;
 import org.smartregister.chw.cecap.interactor.BaseCecapProfileInteractor;
 import org.smartregister.chw.cecap.presenter.BaseCecapProfilePresenter;
-import org.smartregister.chw.cecap.R;
-import org.smartregister.chw.cecap.dao.CecapDao;
-import org.smartregister.chw.cecap.util.Constants;
 import org.smartregister.chw.cecap.util.CecapUtil;
+import org.smartregister.chw.cecap.util.Constants;
 import org.smartregister.helper.ImageRenderHelper;
 import org.smartregister.view.activity.BaseProfileActivity;
 
@@ -68,21 +68,14 @@ public class BaseCecapProfileActivity extends BaseProfileActivity implements Cec
     protected ImageView imageViewCross;
 
     protected TextView textViewUndo;
-
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", Locale.getDefault());
     protected TextView textViewVisitDone;
-
     protected RelativeLayout visitDone;
-
     protected LinearLayout recordVisits;
-
     protected TextView textViewVisitDoneEdit;
-
-    private ProgressBar progressBar;
-
     protected BaseCecapFloatingMenu baseCecapFloatingMenu;
-
     protected RelativeLayout rlTestResults;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", Locale.getDefault());
+    private ProgressBar progressBar;
 
     public static void startProfileActivity(Activity activity, String baseEntityId) {
         Intent intent = new Intent(activity, BaseCecapProfileActivity.class);
@@ -225,6 +218,7 @@ public class BaseCecapProfileActivity extends BaseProfileActivity implements Cec
     public void refreshMedicalHistory(boolean hasHistory) {
         showProgressBar(false);
         rlLastVisit.setVisibility(hasHistory ? View.VISIBLE : View.GONE);
+        textViewRecordCecap.setText(hasHistory ? R.string.record_cecap : R.string.health_services_provided);
     }
 
 

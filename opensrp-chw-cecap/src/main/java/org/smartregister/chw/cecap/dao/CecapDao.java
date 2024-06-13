@@ -197,9 +197,10 @@ public class CecapDao extends AbstractDao {
     }
 
     public static void updateData(String baseEntityID, String mobilization_date, String femaleClientsReached, String maleClientsReached, String healthEducationProvided) {
-        String sql = "INSERT INTO "+ Constants.TABLES.CECAP_MOBILIZATION_SESSIONS +
-                "           (id, mobilization_date, female_clients_reached, male_clients_reached, health_education_provided) " +
+        String sql = "INSERT INTO " + Constants.TABLES.CECAP_MOBILIZATION_SESSIONS +
+                "           (id,base_entity_id, mobilization_date, female_clients_reached, male_clients_reached, health_education_provided) " +
                 "           VALUES (" +
+                "                   '" + baseEntityID + "', " +
                 "                   '" + baseEntityID + "', " +
                 "                   '" + mobilization_date + "', " +
                 "                   '" + femaleClientsReached + "', " +
