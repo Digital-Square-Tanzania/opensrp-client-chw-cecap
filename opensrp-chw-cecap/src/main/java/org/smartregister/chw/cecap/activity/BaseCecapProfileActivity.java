@@ -219,8 +219,37 @@ public class BaseCecapProfileActivity extends BaseProfileActivity implements Cec
         showProgressBar(false);
         rlLastVisit.setVisibility(hasHistory ? View.VISIBLE : View.GONE);
         textViewRecordCecap.setText(hasHistory ? R.string.record_cecap : R.string.health_services_provided);
+        UpdateRecordCecapButtonText(hasHistory);
     }
 
+    public void UpdateRecordCecapButtonText(boolean hasHistory) {
+        if (!hasHistory) {
+            textViewRecordCecap.setVisibility(View.VISIBLE);
+            textViewRecordCecap.setText(getString(R.string.health_services_provided));
+        } else if (hasPendingVia(memberObject.getBaseEntityId())) {
+            textViewRecordCecap.setVisibility(View.VISIBLE);
+            textViewRecordCecap.setText(getString(R.string.cecap_via_approach));
+        } else if (CecapDao.hasTestResults(memberObject.getBaseEntityId())) {
+            textViewRecordCecap.setVisibility(View.GONE);
+        } else {
+            textViewRecordCecap.setVisibility(View.VISIBLE);
+            textViewRecordCecap.setText(getString(R.string.record_cecap));
+        }
+    }
+
+    public boolean hasPendingVia(String baseEntityID) {
+
+        String screenTestPerformed = CecapDao.getScreenTestPerformed(baseEntityID);
+        boolean hasPendingVia = false;
+
+        if (screenTestPerformed != null && screenTestPerformed.contains("hpv_dna")) {
+            String hpvFindings = CecapDao.getHpvFindings(baseEntityID);
+            if (hpvFindings != null && hpvFindings.equals("positive")) {
+                hasPendingVia = true;
+            }
+        }
+        return hasPendingVia;
+    }
 
     @Override
     public void openMedicalHistory() {
