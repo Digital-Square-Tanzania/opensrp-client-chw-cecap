@@ -44,7 +44,7 @@ public class BaseCecapProfileInteractor implements CecapProfileContract.Interact
         appExecutors.diskIO().execute(runnable);
     }
 
-    protected Visit getVisit(String eventType, MemberObject memberObject) {
+    public static Visit getVisit(String eventType, MemberObject memberObject) {
         try {
             return CecapLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), eventType);
         } catch (Exception e) {
