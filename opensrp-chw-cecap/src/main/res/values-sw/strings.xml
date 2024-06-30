@@ -11,7 +11,7 @@
     <string name="saving_dialog_title">Kuhifadhi</string>
     <string name="malaria_followup_visit">Tembeleo la ufuatiliaji</string>
     <string name="record_cecap">Rekodi ufuatiliaji wa CECAP</string>
-    <string name="return_to_previous_cecap_clients_page">Rudi kwenye wateja wote wa malaria</string>
+    <string name="return_to_previous_cecap_clients_page">Rudi kwenye wateja wote wa huduma za saratani ya via vya uzazi</string>
     <string name="last_visit_40_days_ago">Tembeleo la mwisho %1$s uliyopita</string>
     <string name="view_cecap_followp_history">Angalia historia ya huduma</string>
     <string name="cecap_followup_history">Historia ya huduma</string>
@@ -48,5 +48,12 @@
     <string name="female">Ke</string>
     <string name="issue_referral">Toa Rufaa</string>
     <string name="health_services_provided">Huduma za Afya zilizotolewa</string>
+    <string name="cecap_mobilization">Uhamasishaji</string>
+    <string name="cecap_mobilization_session">Kikao cha Uhamasishaji</string>
+    <string name="cecap_mobilization_session_details">Taarifa za uhamasishaji</string>
+    <string name="cecap_mobilization_sessions_title">Uhamasishaji</string>
+    <string name="cecap_edit_home_visit">Hariri</string>
+
+    <string name="cecap_visit">Tembeleo la huduma za saratani ya via vya uzazi</string>
 
 </resources>
