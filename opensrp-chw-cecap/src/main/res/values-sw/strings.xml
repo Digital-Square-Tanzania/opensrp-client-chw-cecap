@@ -10,7 +10,7 @@
     <string name="job_aids">Vitendea kazi</string>
     <string name="saving_dialog_title">Kuhifadhi</string>
     <string name="malaria_followup_visit">Tembeleo la ufuatiliaji</string>
-    <string name="record_cecap">Rekodi ufuatiliaji wa CECAP</string>
+    <string name="record_cecap">Rekodi ufuatiliaji wa Saratani ya Via vya Uzazi</string>
     <string name="return_to_previous_cecap_clients_page">Rudi kwenye wateja wote wa huduma za saratani ya via vya uzazi</string>
     <string name="last_visit_40_days_ago">Tembeleo la mwisho %1$s uliyopita</string>
     <string name="view_cecap_followp_history">Angalia historia ya huduma</string>
@@ -25,9 +25,9 @@
     <string name="vaccine_service_upcoming"><![CDATA[%1$s <font color=#7f7f7f>inakaribia (%2$s)</font></b>]]></string>
     <string name="vaccine_service_overdue"><![CDATA[%1$s <font color=#f04646>muda umepita (%2$s)</font></b>]]></string>
     <string name="vaccine_service_due"><![CDATA[%1$s <font color=#000000>imefika (%2$s)</font></b>]]></string>
-    <string name="call_cecap_client">Mteja wa CECAP</string>
+    <string name="call_cecap_client">Mteja wa huduma za saratani ya via vya uzazi</string>
     <string name="head_of_family">Mkuu wa kaya</string>
-    <string name="cecap_client">Mteja wa CECAP</string>
+    <string name="cecap_client">Mteja wa huduma za saratani ya via vya uzazi</string>
     <string name="copy_to_clipboard">Nakili namba ya simu</string>
     <string name="copied_phone_number">Namba ya simu imenakiliwa</string>
     <string name="call">Piga simu</string>
