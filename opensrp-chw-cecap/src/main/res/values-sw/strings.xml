@@ -46,7 +46,7 @@
     <string name="edit">HARIRI</string>
     <string name="male">Me</string>
     <string name="female">Ke</string>
-    <string name="issue_referral">Toa Rufaa</string>
+    <string name="issue_facility_referral">Rufaa kwenda kituo cha kutolea huduma za afya</string>
     <string name="health_services_provided">Huduma za Afya zilizotolewa</string>
     <string name="cecap_mobilization">Uhamasishaji</string>
     <string name="cecap_mobilization_session">Kikao cha Uhamasishaji</string>

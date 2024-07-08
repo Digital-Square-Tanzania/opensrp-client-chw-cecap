@@ -82,7 +82,7 @@
     <string name="cecap_mobilization_session_details">CECAP Mobilization Session Details</string>
     <string name="cecap_mobilization_sessions_title">CECAP Mobilizations</string>
     <string name="cecap_edit_home_visit">Edit CECAP Home Visit</string>
-    <string name="issue_referral">Issue Referral</string>
+    <string name="issue_facility_referral">Issue Referral</string>
     <string name="health_services_provided">Health services provided</string>
 
 </resources>
