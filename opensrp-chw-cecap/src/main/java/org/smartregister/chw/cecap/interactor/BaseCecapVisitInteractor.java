@@ -22,6 +22,7 @@ import org.smartregister.chw.cecap.actionhelper.ScreeningMethodActionHelper;
 import org.smartregister.chw.cecap.actionhelper.TreatmentActionHelper;
 import org.smartregister.chw.cecap.actionhelper.VaginalSpeculumExaminationActionHelper;
 import org.smartregister.chw.cecap.actionhelper.ViaApproachActionHelper;
+import org.smartregister.chw.cecap.actionhelper.ViaApproachForHpvDnaActionHelper;
 import org.smartregister.chw.cecap.contract.BaseCecapVisitContract;
 import org.smartregister.chw.cecap.dao.CecapDao;
 import org.smartregister.chw.cecap.domain.MemberObject;
@@ -259,6 +260,12 @@ public class BaseCecapVisitInteractor implements BaseCecapVisitContract.Interact
                     } catch (BaseCecapVisitAction.ValidationException e) {
                         Timber.e(e);
                     }
+                } else if (screeningMethods.contains("hpv_dna")) {
+                    try {
+                        evaluateViaApproachForHpvDna(memberObject, details);
+                    } catch (BaseCecapVisitAction.ValidationException e) {
+                        Timber.e(e);
+                    }
                 } else {
                     actionList.remove(mContext.getString(R.string.cecap_via_approach));
                 }
@@ -301,6 +308,28 @@ public class BaseCecapVisitInteractor implements BaseCecapVisitContract.Interact
         };
         String actionName = mContext.getString(R.string.cecap_via_approach);
         BaseCecapVisitAction action = getBuilder(actionName).withOptional(false).withDetails(details).withHelper(actionHelper).withFormName(Constants.FORMS.CECAP_VIA_APPROACH).build();
+        actionList.put(actionName, action);
+    }
+
+    protected void evaluateViaApproachForHpvDna(MemberObject memberObject, Map<String, List<VisitDetail>> details) throws BaseCecapVisitAction.ValidationException {
+        CecapVisitActionHelper actionHelper = new ViaApproachForHpvDnaActionHelper(mContext, memberObject) {
+            @Override
+            public void processViaFindings(String viaFindings) {
+                if (viaFindings.contains("positive")) {
+                    try {
+                        evaluateTreatment(memberObject, details, viaFindings);
+                    } catch (BaseCecapVisitAction.ValidationException e) {
+                        Timber.e(e);
+                    }
+                } else {
+                    actionList.remove(mContext.getString(R.string.cecap_treatment));
+                }
+
+                appExecutors.mainThread().execute(() -> callBack.preloadActions(actionList));
+            }
+        };
+        String actionName = mContext.getString(R.string.cecap_via_approach);
+        BaseCecapVisitAction action = getBuilder(actionName).withOptional(false).withDetails(details).withHelper(actionHelper).withFormName(Constants.FORMS.CECAP_VIA_APPROACH_FOR_HPV_DNA).build();
         actionList.put(actionName, action);
     }
 

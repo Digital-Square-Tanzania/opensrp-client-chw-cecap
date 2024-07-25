@@ -45,6 +45,8 @@ public interface Constants {
 
         String CECAP_VIA_APPROACH = "cecap_via_approach";
 
+        String CECAP_VIA_APPROACH_FOR_HPV_DNA = "cecap_via_approach_for_hpv_dna";
+
         String CECAP_TREATMENT = "cecap_treatment";
 
         String CECAP_HPV_DNA_SAMPLE_COLLECTION = "cecap_hpv_dna_sample_collection";

@@ -148,7 +148,7 @@ public class TestResultsViewProvider implements RecyclerViewProvider<TestResults
 
     @Override
     public RegisterViewHolder createViewHolder(ViewGroup parent) {
-        View view = inflater.inflate(R.layout.test_result_list_row, parent, false);
+        View view = inflater.inflate(R.layout.cecap_test_result_list_row, parent, false);
         return new RegisterViewHolder(view);
     }
 

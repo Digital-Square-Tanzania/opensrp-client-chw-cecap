@@ -227,8 +227,10 @@ public class BaseCecapProfileActivity extends BaseProfileActivity implements Cec
             textViewRecordCecap.setVisibility(View.VISIBLE);
             textViewRecordCecap.setText(getString(R.string.health_services_provided));
         } else if (hasPendingVia(memberObject.getBaseEntityId())) {
+//            textViewRecordCecap.setVisibility(View.VISIBLE);
+//            textViewRecordCecap.setText(getString(R.string.cecap_via_approach));
             textViewRecordCecap.setVisibility(View.VISIBLE);
-            textViewRecordCecap.setText(getString(R.string.cecap_via_approach));
+            textViewRecordCecap.setText(getString(R.string.record_cecap));
         } else if (CecapDao.hasTestResults(memberObject.getBaseEntityId())) {
             textViewRecordCecap.setVisibility(View.GONE);
         } else {

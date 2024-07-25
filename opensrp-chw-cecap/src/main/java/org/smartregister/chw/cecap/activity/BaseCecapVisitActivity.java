@@ -149,12 +149,12 @@ public class BaseCecapVisitActivity extends SecuredActivity implements BaseCecap
             actionList.put(getString(R.string.cecap_screening_method), map.get(getString(R.string.cecap_screening_method)));
         }
 
-        if (map.containsKey(getString(R.string.cecap_via_approach))) {
-            actionList.put(getString(R.string.cecap_via_approach), map.get(getString(R.string.cecap_via_approach)));
-        }
-
         if (map.containsKey(getString(R.string.cecap_hpv_dna_sample_collection))) {
             actionList.put(getString(R.string.cecap_hpv_dna_sample_collection), map.get(getString(R.string.cecap_hpv_dna_sample_collection)));
+        }
+
+        if (map.containsKey(getString(R.string.cecap_via_approach))) {
+            actionList.put(getString(R.string.cecap_via_approach), map.get(getString(R.string.cecap_via_approach)));
         }
 
         if (map.containsKey(getString(R.string.cecap_pap_sample_collection))) {
