@@ -1,6 +1,7 @@
 package org.smartregister.chw.cecap.util;
 
 import static org.smartregister.client.utils.constants.JsonFormConstants.JSON_FORM_KEY.GLOBAL;
+import static org.smartregister.client.utils.constants.JsonFormConstants.V_REGEX;
 
 import android.util.Log;
 
@@ -15,6 +16,10 @@ import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.FormUtils;
+
+import java.util.Calendar;
+
+import timber.log.Timber;
 
 public class CecapJsonFormUtils extends org.smartregister.util.JsonFormUtils {
     public static final String METADATA = "metadata";
@@ -121,6 +126,27 @@ public class CecapJsonFormUtils extends org.smartregister.util.JsonFormUtils {
 
         jsonObject.getJSONObject(GLOBAL).put("age", CecapDao.getClientAge(entityId));
         jsonObject.getJSONObject(GLOBAL).put("sex", CecapDao.getClientSex(entityId));
+
+        JSONArray fields = jsonObject.getJSONObject(STEP1).getJSONArray(FIELDS);
+        JSONObject reproductiveCancerId = JsonFormUtils.getFieldJSONObject(fields, "reproductive_cancer_id");
+
+        if (reproductiveCancerId != null) {
+            try {
+                int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+                reproductiveCancerId.getJSONObject(V_REGEX).put(VALUE, generateRegex(currentYear));
+            } catch (Exception e) {
+                Timber.e(e);
+            }
+        }
+
+
+    }
+    public static String generateRegex(int year) {
+        // Get the last digit of the year
+        int lastDigit = year % 10;
+
+        // Construct the regex based on the last digit
+        return String.format("(\\d{4}-(0[1-9]|1[0-2])-(00|0[1-9]|1[0-9]|2[0-%d]))?", lastDigit);
     }
 
     public static JSONObject getFormAsJson(String formName) throws Exception {
