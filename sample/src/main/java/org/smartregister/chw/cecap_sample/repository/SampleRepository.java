@@ -2,13 +2,12 @@ package org.smartregister.chw.cecap_sample.repository;
 
 import android.content.Context;
 
-import net.sqlcipher.database.SQLiteDatabase;
+import net.zetetic.database.sqlcipher.SQLiteDatabase;
 
 import org.smartregister.AllConstants;
 import org.smartregister.chw.cecap_sample.application.SampleApplication;
 import org.smartregister.chw.cecap_sample.BuildConfig;
 import org.smartregister.chw.cecap.CecapLibrary;
-import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.repository.Repository;
 import org.smartregister.repository.SettingsRepository;
@@ -25,7 +24,6 @@ public class SampleRepository extends Repository {
     protected SQLiteDatabase readableDatabase;
     protected SQLiteDatabase writableDatabase;
     private Context context;
-    private String password = "Sample_PASS";
 
     public SampleRepository(Context context, org.smartregister.Context openSRPContext) {
         super(context, AllConstants.DATABASE_NAME, BuildConfig.DATABASE_VERSION, openSRPContext.session(), SampleApplication.createCommonFtsObject(), openSRPContext.sharedRepositoriesArray());
@@ -37,8 +35,6 @@ public class SampleRepository extends Repository {
         super.onCreate(database);
         EventClientRepository.createTable(database, EventClientRepository.Table.client, EventClientRepository.client_column.values());
         EventClientRepository.createTable(database, EventClientRepository.Table.event, EventClientRepository.event_column.values());
-
-        ConfigurableViewsRepository.createTable(database);
 
         UniqueIdRepository.createTable(database);
         SettingsRepository.onUpgrade(database);
@@ -71,23 +67,13 @@ public class SampleRepository extends Repository {
 
 
     @Override
-    public SQLiteDatabase getReadableDatabase() {
-        return getReadableDatabase(password);
-    }
-
-    @Override
-    public SQLiteDatabase getWritableDatabase() {
-        return getWritableDatabase(password);
-    }
-
-    @Override
-    public synchronized SQLiteDatabase getReadableDatabase(String password) {
+    public synchronized SQLiteDatabase getReadableDatabase() {
         try {
             if (readableDatabase == null || !readableDatabase.isOpen()) {
                 if (readableDatabase != null) {
                     readableDatabase.close();
                 }
-                readableDatabase = super.getReadableDatabase(password);
+                readableDatabase = super.getReadableDatabase();
             }
             return readableDatabase;
         } catch (Exception e) {
@@ -98,12 +84,12 @@ public class SampleRepository extends Repository {
     }
 
     @Override
-    public synchronized SQLiteDatabase getWritableDatabase(String password) {
+    public synchronized SQLiteDatabase getWritableDatabase() {
         if (writableDatabase == null || !writableDatabase.isOpen()) {
             if (writableDatabase != null) {
                 writableDatabase.close();
             }
-            writableDatabase = super.getWritableDatabase(password);
+            writableDatabase = super.getWritableDatabase();
         }
         return writableDatabase;
     }
