@@ -3,16 +3,24 @@ package org.smartregister.chw.cecap.activity;
 import android.content.Intent;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.powermock.reflect.Whitebox;
 
 public class BaseCecapRegisterActivityTest {
     @Mock
     public Intent data;
-    @Mock
-    private BaseCecapRegisterActivity baseTestRegisterActivity = new BaseCecapRegisterActivity();
+    @Mock(answer = Answers.CALLS_REAL_METHODS)
+    private BaseCecapRegisterActivity baseTestRegisterActivity;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void assertNotNull() {

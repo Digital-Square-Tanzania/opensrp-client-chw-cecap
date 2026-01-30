@@ -27,8 +27,8 @@ public class BaseCecapRegisterFragmentTest {
     public void openProfile() throws Exception {
         Whitebox.invokeMethod(baseTestRegisterFragment, "openProfile", client);
         PowerMockito.mockStatic(BaseCecapProfileActivity.class);
+        PowerMockito.verifyStatic(BaseCecapProfileActivity.class, times(1));
         BaseCecapProfileActivity.startProfileActivity(null, null);
-        PowerMockito.verifyStatic(times(1));
 
     }
 }

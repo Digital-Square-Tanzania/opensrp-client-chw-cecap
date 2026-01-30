@@ -49,7 +49,7 @@ public class BaseCecapProfileActivityTest {
 
     @Test
     public void formatTime() {
-        BaseCecapProfileActivity activity = new BaseCecapProfileActivity();
+        BaseCecapProfileActivity activity = Mockito.mock(BaseCecapProfileActivity.class, Mockito.CALLS_REAL_METHODS);
         try {
             Assert.assertEquals("25 Oct 2019", Whitebox.invokeMethod(activity, "formatTime", "25-10-2019"));
         } catch (Exception e) {
@@ -77,7 +77,7 @@ public class BaseCecapProfileActivityTest {
 
     @Test
     public void onClickBackPressed() {
-        baseTestProfileActivity = Mockito.spy(new BaseCecapProfileActivity());
+        baseTestProfileActivity = Mockito.mock(BaseCecapProfileActivity.class, Mockito.CALLS_REAL_METHODS);
         Mockito.when(view.getId()).thenReturn(R.id.title_layout);
         Mockito.doNothing().when(baseTestProfileActivity).onBackPressed();
         baseTestProfileActivity.onClick(view);
@@ -86,7 +86,7 @@ public class BaseCecapProfileActivityTest {
 
     @Test
     public void onClickOpenMedicalHistory() {
-        baseTestProfileActivity = Mockito.spy(new BaseCecapProfileActivity());
+        baseTestProfileActivity = Mockito.mock(BaseCecapProfileActivity.class, Mockito.CALLS_REAL_METHODS);
         Mockito.when(view.getId()).thenReturn(R.id.rlLastVisit);
         Mockito.doNothing().when(baseTestProfileActivity).openMedicalHistory();
         baseTestProfileActivity.onClick(view);
@@ -95,7 +95,7 @@ public class BaseCecapProfileActivityTest {
 
     @Test(expected = Exception.class)
     public void onActivityResult() throws Exception {
-        baseTestProfileActivity = Mockito.spy(new BaseCecapProfileActivity());
+        baseTestProfileActivity = Mockito.mock(BaseCecapProfileActivity.class, Mockito.CALLS_REAL_METHODS);
         Whitebox.invokeMethod(baseTestProfileActivity, "onActivityResult", 2244, -1, null);
         Mockito.verify(profilePresenter).saveForm(null);
     }
