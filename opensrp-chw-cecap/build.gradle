@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.4'
+        classpath 'com.android.tools.build:gradle:4.2.2'
     }
 }
 
@@ -171,7 +171,7 @@ dependencies {
         exclude group: 'org.apache.httpcomponents', module: 'httpmime'
     }
 
-    implementation('org.smartregister:opensrp-client-native-form:2.1.6-SNAPSHOT@aar') {
+    implementation('org.smartregister:opensrp-client-native-form:3.1.9-NACP-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'com.android.support', module: 'recyclerview-v7'
         exclude group: 'com.android.support', module: 'appcompat-v7'
